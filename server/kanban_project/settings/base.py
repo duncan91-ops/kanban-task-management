@@ -59,8 +59,10 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
+    "apps.boards.apps.BoardsConfig",
     "apps.common.apps.CommonConfig",
     "apps.profiles.apps.ProfilesConfig",
+    "apps.tasks.apps.TasksConfig",
     "apps.users.apps.UsersConfig",
 ]
 
