@@ -14,3 +14,5 @@ DATABASES = {
         "PORT": env("POSTGRES_PORT"),
     }
 }
+
+STORAGE_BUCKET = env("STORAGE_BUCKET")
