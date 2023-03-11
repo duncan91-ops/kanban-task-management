@@ -49,9 +49,24 @@ DJANGO_APPS = [
     "django.contrib.sites",
 ]
 
+THIRD_PARTY_APPS = [
+    "rest_framework",
+    "rest_framework_simplejwt",
+    "djoser",
+    "django_countries",
+    "django_filters",
+    "phonenumber_field",
+]
+
+LOCAL_APPS = [
+    "apps.common.apps.CommonConfig",
+    "apps.profiles.apps.ProfilesConfig",
+    "apps.users.apps.UsersConfig",
+]
+
 SITE_ID = 1
 
-INSTALLED_APPS = DJANGO_APPS
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -128,6 +143,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTH_USER_MODEL = "users.CustomUser"
 
 # LOGGING
 
