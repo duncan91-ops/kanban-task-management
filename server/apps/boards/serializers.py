@@ -16,15 +16,15 @@ class BoardSerializer(serializers.ModelSerializer):
         model = Board
         fields = ["id", "name", "columns"]
 
-    def create(self, validated_data):
+    def create(self, validated_data, user):
         columns_data = validated_data.pop("columns")
-        board = Board.objects.create(**validated_data)
+        board = Board.objects.create(user=user, **validated_data)
         for column_data in columns_data:
             Column.objects.create(board=board, **column_data)
         return board
 
     def update(self, instance, validated_data):
-        columns_data = validated_data.pop("columns")
+        columns_data = validated_data.pop("columns") or []
         instance.name = validated_data.get("name", instance.name)
         instance.save()
         for column_data in columns_data:
