@@ -24,7 +24,7 @@ class Board(TimeStampedUUIDModel):
         return super(Board, self).save(*args, **kwargs)
 
 
-class Column(models.Model):
+class Column(TimeStampedUUIDModel):
     board = models.ForeignKey(Board, on_delete=models.CASCADE, related_name="columns")
     name = models.CharField(verbose_name=_("Column Name"), max_length=20)
 
