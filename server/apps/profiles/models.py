@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -51,13 +52,19 @@ class ProfilePhoto(models.Model):
         Profile, on_delete=models.CASCADE, related_name="profile_photo"
     )
     small = models.URLField(
-        verbose_name=_("Small sized Profile Photo URL"), max_length=500
+        verbose_name=_("Small sized Profile Photo URL"),
+        max_length=500,
+        default=f"https://storage.googleapis.com/{settings.STORAGE_BUCKET}/small/profile_default.png",
     )
     medium = models.URLField(
-        verbose_name=_("medium sized Profile Photo URL"), max_length=500
+        verbose_name=_("medium sized Profile Photo URL"),
+        max_length=500,
+        default=f"https://storage.googleapis.com/{settings.STORAGE_BUCKET}/medium/profile_default.png",
     )
     large = models.URLField(
-        verbose_name=_("large sized Profile Photo URL"), max_length=500
+        verbose_name=_("large sized Profile Photo URL"),
+        max_length=500,
+        default=f"https://storage.googleapis.com/{settings.STORAGE_BUCKET}/large/profile_default.png",
     )
 
     def __str__(self):
