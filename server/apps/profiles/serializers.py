@@ -7,7 +7,7 @@ from .models import Profile, ProfilePhoto
 class ProfilePhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProfilePhoto
-        fields = ["small" "medium", "large"]
+        fields = ["small", "medium", "large"]
 
 
 class ProfileSerializer(serializers.ModelSerializer):

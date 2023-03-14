@@ -9,7 +9,7 @@ from .views import (
 )
 
 urlpatterns = [
-    path("", BoardListAPIView.as_view, name="board_list"),
+    path("", BoardListAPIView.as_view(), name="board_list"),
     path("create/", BoardCreateAPIView.as_view(), name="board_create"),
     path("update/<str:board_id>/", BoardUpdateAPIView.as_view(), name="board_update"),
     path("delete/<str:board_id>/", delete_board_api_view, name="board_delete"),

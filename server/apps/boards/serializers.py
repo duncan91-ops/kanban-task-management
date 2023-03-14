@@ -16,23 +16,27 @@ class BoardSerializer(serializers.ModelSerializer):
         model = Board
         fields = ["id", "name", "columns"]
 
-    def create(self, validated_data, user):
-        columns_data = validated_data.pop("columns")
+    def create(self, validated_data):
+        user = self.context["request"].user
+        try:
+            columns_data = validated_data.pop("columns")
+        except KeyError:
+            columns_data = []
         board = Board.objects.create(user=user, **validated_data)
         for column_data in columns_data:
             Column.objects.create(board=board, **column_data)
         return board
 
     def update(self, instance, validated_data):
-        columns_data = validated_data.pop("columns") or []
+        try:
+            columns_data = validated_data.pop("columns")
+        except KeyError:
+            columns_data = []
         instance.name = validated_data.get("name", instance.name)
         instance.save()
         for column_data in columns_data:
-            id = column_data.get("id", None)
-            if id is None:
-                Column.objects.create(board=instance, **column_data)
-                continue
-            column = Column.objects.get(id=id)
-            column.name = column_data.get("name", column.name)
-            column.save()
+            columns = Column.objects.filter(board=instance)
+            for column in columns:
+                column.delete()
+            Column.objects.create(board=instance, **column_data)
         return instance

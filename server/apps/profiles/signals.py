@@ -22,12 +22,12 @@ def save_user_profile(sender, instance, **kwargs):
 
 
 @receiver(post_save, sender=Profile)
-def create_user_profile(sender, instance, created, **kwargs):
+def create_user_profile_photo(sender, instance, created, **kwargs):
     if created:
         ProfilePhoto.objects.create(profile=instance)
 
 
 @receiver(post_save, sender=Profile)
-def save_user_profile(sender, instance, **kwargs):
+def save_user_profile_photo(sender, instance, **kwargs):
     instance.profile_photo.save()
-    logger.info(f"{instance.user.email}'s profile created")
+    logger.info(f"{instance.user.email}'s profile photo created")

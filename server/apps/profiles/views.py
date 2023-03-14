@@ -10,15 +10,15 @@ from .serializers import ProfileSerializer, UpdateProfileSerializer
 from .utils import upload_image
 
 
-class GetProfileAPIView(generics.RetrieveAPIView):
+class GetProfileAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     renderer_classes = [ProfileJSONRenderer]
-    serializer_class = ProfileSerializer
 
-    def get_queryset(self):
+    def get(self, request):
         user = self.request.user
-        queryset = Profile.objects.get(user=user)
-        return queryset
+        profile = Profile.objects.get(user=user)
+        serializer = ProfileSerializer(profile, context={"request": request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class UpdateProfileAPIView(APIView):

@@ -5,6 +5,7 @@ from .models import Board, Column
 
 class ColumnInline(admin.TabularInline):
     model = Column
+    list_display = ["name"]
 
 
 class BoardAdmin(admin.ModelAdmin):

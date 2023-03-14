@@ -12,9 +12,8 @@ class BoardCreateAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
-        user = request.user
         data = request.data
-        serializer = BoardSerializer(data=data, user=user)
+        serializer = BoardSerializer(data=data, context={"request": request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -34,7 +33,7 @@ class BoardListAPIView(APIView):
 class BoardUpdateAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    def patch(self, request, board_id):
+    def put(self, request, board_id):
         try:
             board = Board.objects.get(id=board_id)
         except Board.DoesNotExist:
@@ -45,7 +44,7 @@ class BoardUpdateAPIView(APIView):
             raise NotYourBoard
 
         data = request.data
-        serializer = BoardSerializer(instance=board, data=data, partial=True)
+        serializer = BoardSerializer(instance=board, data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
