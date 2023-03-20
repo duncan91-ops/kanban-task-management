@@ -8,6 +8,9 @@ class SubtaskInline(admin.TabularInline):
 
 
 class TaskAdmin(admin.ModelAdmin):
+    inlines = [
+        SubtaskInline,
+    ]
     list_display = [
         "pkid",
         "id",

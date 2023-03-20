@@ -8,7 +8,7 @@ from apps.common.models import TimeStampedUUIDModel
 class Task(TimeStampedUUIDModel):
     board = models.ForeignKey(Board, on_delete=models.CASCADE, related_name="tasks")
     title = models.CharField(verbose_name=_("Task Title"), max_length=150)
-    description = models.TextField(verbose_name=_("Task Description"))
+    description = models.TextField(verbose_name=_("Task Description"), blank=True)
     status = models.CharField(verbose_name=_("Task Status"), max_length=20)
     total_subtasks = models.IntegerField(
         verbose_name=_("Total Number of Subtasks"), default=0
@@ -23,11 +23,6 @@ class Task(TimeStampedUUIDModel):
     def __str__(self):
         return self.title
 
-    def save(self, *args, **kwargs):
-        self.title = str.capitalize(self.title[0]) + self.title[1:]
-        self.description = str.capitalize(self.description[0]) + self.description[1:]
-        return self.save(Task, self).save(*args, **kwargs)
-
 
 class Subtask(TimeStampedUUIDModel):
     task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name="subtasks")
@@ -39,7 +34,3 @@ class Subtask(TimeStampedUUIDModel):
 
     def __str__(self):
         return self.title
-
-    def save(self, *args, **kwargs):
-        self.title = str.capitalize(self.title[0]) + self.title[1:]
-        return self.save(Task, self).save(*args, **kwargs)
