@@ -4,6 +4,7 @@
 .DS_Store
 staticfiles
 mediafiles
+credentials.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
