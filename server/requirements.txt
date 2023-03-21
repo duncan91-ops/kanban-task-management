@@ -15,3 +15,14 @@ djangorestframework-simplejwt
 PyJWT
 djoser
 google-cloud-storage
+pytest-django
+pytest-factoryboy
+pytest-cov
+Faker
+redis
+celery
+django-celery-email
+flower
+argh
+PyYAML
+watchdog

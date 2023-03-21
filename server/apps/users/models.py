@@ -27,7 +27,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         verbose_name = _("User")
         verbose_name_plural = _("Users")
 
-    @property
     def get_short_name(self):
         return self.first_name.title()
 

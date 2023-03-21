@@ -40,9 +40,9 @@ ALLOWED_HOSTS = env("ALLOWED_HOSTS").split(" ")
 # Application definition
 
 DJANGO_APPS = [
+    "django.contrib.contenttypes",  # must be at the top (celery)
     "django.contrib.admin",
     "django.contrib.auth",
-    "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
@@ -56,6 +56,7 @@ THIRD_PARTY_APPS = [
     "django_countries",
     "django_filters",
     "phonenumber_field",
+    "djcelery_email",
 ]
 
 LOCAL_APPS = [

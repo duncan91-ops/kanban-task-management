@@ -17,7 +17,7 @@ class Board(TimeStampedUUIDModel):
         unique_together = ["user", "name"]
 
     def __str__(self):
-        return f"{self.name.title()} Board"
+        return f"{self.name} Board"
 
     def save(self, *args, **kwargs):
         self.name = str.title(self.name)
@@ -32,7 +32,7 @@ class Column(TimeStampedUUIDModel):
         unique_together = ["board", "name"]
 
     def __str__(self):
-        return f"{self.name.title()} Column"
+        return f"{self.name} Column"
 
     def save(self, *args, **kwargs):
         self.name = str.title(self.name)
