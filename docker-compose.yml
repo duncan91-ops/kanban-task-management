@@ -12,16 +12,28 @@ services:
     env_file:
       - ./server/.env
     depends_on:
-      - db
+      - kanban-db
+      - redis
     networks:
       - kanban-net
-  
-  db:
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev 
+    restart: on-failure
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    networks:
+      - kanban-net 
+
+  kanban-db:
     image: postgres:14-alpine
     ports:
       - "5438:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data 
+      - postgres_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -29,17 +41,54 @@ services:
     networks:
       - kanban-net
   
+  redis:
+    image: redis:5-alpine 
+    networks:
+      - kanban-net
+  
+  celery_worker:
+    build:
+      context: ./server
+      dockerfile: ../docker/local/django/Dockerfile
+    command: /start-celeryworker 
+    volumes:
+      - ./server:/app
+    env_file:
+      - ./server/.env
+    depends_on:
+      - redis
+      - kanban-db
+    networks:
+      - kanban-net
+  
+  flower:
+    build:
+      context: ./server 
+      dockerfile: ../docker/local/django/Dockerfile 
+    command: /start-flower
+    volumes:
+      - ./server:/app
+    env_file:
+      - ./server/.env
+    ports:
+      - "5557:5555"
+    depends_on:
+      - redis
+      - kanban-db
+    networks:
+      - kanban-net
+
   nginx:
     restart: always
     build:
-      context: ./docker/local/nginx 
-      dockerfile: Dockerfile 
-    volumes:
-      - static_volume:/app/staticfiles 
-    ports:
-      - "8081:80"
+      context: ./docker/local/nginx
+      dockerfile: Dockerfile
     depends_on:
       - api
+    volumes:
+      - static_volume:/app/staticfiles
+    ports:
+      - "8081:80"
     networks:
       - kanban-net
 
@@ -48,5 +97,5 @@ networks:
     driver: bridge
 
 volumes:
-  static_volume:
   postgres_data:
+  static_volume:

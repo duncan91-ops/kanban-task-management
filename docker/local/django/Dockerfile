@@ -5,11 +5,12 @@ RUN mkdir ${APP_HOME}
 RUN mkdir ${APP_HOME}/staticfiles
 WORKDIR ${APP_HOME}
 
-LABEL maintainer="duncankithinji91@gmail.com"
-LABEL description="Development Image for Kanban Project"
+LABEL maintainer='duncankithinji91@gmail.com'
+LABEL youtube='https://www.youtube.com/@duncan91-ops'
+LABEL description='Development Image for Kanban Project'
 
-ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update \
   && apt-get install -y build-essential \
@@ -21,16 +22,25 @@ RUN apt-get update \
 
 RUN pip3 install -U pip
 
-COPY ./requirements.txt /app/requirements.txt 
+COPY ./requirements.txt /app/requirements.txt
 
-RUN pip3 install -r requirements.txt 
+RUN pip3 install -r requirements.txt
 
 COPY ./scripts/entrypoint /entrypoint
+# line endings
 RUN sed -i 's/\r$//g' /entrypoint
 RUN chmod +x /entrypoint
 
 COPY ./scripts/start /start
 RUN sed -i 's/\r$//g' /start
 RUN chmod +x /start
+
+COPY ./scripts/celery/worker/start /start-celeryworker
+RUN sed -i 's/\r$//g' /start-celeryworker
+RUN chmod +x /start-celeryworker
+
+COPY ./scripts/celery/flower/start /start-flower
+RUN sed -i 's/\r$//g' /start-flower
+RUN chmod +x /start-flower
 
 ENTRYPOINT [ "/entrypoint" ]

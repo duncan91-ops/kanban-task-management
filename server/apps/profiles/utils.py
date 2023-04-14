@@ -1,5 +1,6 @@
 import logging
 import sys
+import os
 from io import BytesIO
 
 from django.conf import settings
@@ -9,6 +10,7 @@ from google.cloud import storage
 from PIL import Image
 
 logger = logging.getLogger(__name__)
+logger.info(f"Current working directory -> {os.getcwd()}")
 client = storage.Client.from_service_account_json(
     json_credentials_path="./credentials.json"
 )

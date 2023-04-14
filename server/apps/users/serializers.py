@@ -23,7 +23,7 @@ class UserSerializer(serializers.ModelSerializer):
     city = serializers.CharField(source="profile.city")
     first_name = serializers.SerializerMethodField()
     last_name = serializers.SerializerMethodField()
-    full_name = serializers.SerializerMethodField(source="get_full_name")
+    full_name = serializers.SerializerMethodField()
     profile_photo = ProfilePhotoSerializer(source="profile.profile_photo")
 
     class Meta:
@@ -46,6 +46,9 @@ class UserSerializer(serializers.ModelSerializer):
 
     def get_last_name(self, obj):
         return obj.last_name.title()
+
+    def get_full_name(self, obj):
+        return obj.get_full_name
 
     def to_representation(self, instance):
         representation = super(UserSerializer, self).to_representation(instance)

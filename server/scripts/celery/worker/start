@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -o errexit
+
+set -o nounset
+
+watchmedo auto-restart -d kanban_project/ -p "*.py" -- celery -A kanban_project worker -l info
+# celery -A real_estate worker -l INFO

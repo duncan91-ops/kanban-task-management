@@ -1,21 +1,18 @@
-ifneq (,(wildcard ./server/.env))
+ifneq (,$(wildcard ./server/.env))
 include ./server/.env
 export
-ENV_FILE_PARAM = --env-file ./server/.env 
+ENV_FILE_PARAM = --env-file ./server/.env
 
 endif
 
 build:
-	docker compose up -d --build --remove-orphans
+	docker compose up --build -d --remove-orphans
 
 up:
 	docker compose up -d
 
 down:
-	docker compose down 
-
-down-v:
-	docker compose down -v
+	docker compose down
 
 show-logs:
 	docker compose logs
@@ -26,17 +23,20 @@ migrate:
 makemigrations:
 	docker compose exec api python3 manage.py makemigrations
 
+superuser:
+	docker compose exec api python3 manage.py createsuperuser
+
 collectstatic:
 	docker compose exec api python3 manage.py collectstatic --no-input --clear
 
-superuser:
-	docker compose exec api python3 manage.py createsuperuser
+down-v:
+	docker compose down -v
 
 volume:
 	docker volume inspect kanban_postgres_data
 
-kanban-db:
-	docker compose exec db psql --username=duncan --dbname=kanban
+invoices-db:
+	docker compose exec kanban-db psql --username=duncan --dbname=kanban
 
 test:
 	docker compose exec api pytest -p no:warnings --cov=.
@@ -57,7 +57,7 @@ black:
 	docker compose exec api black --exclude=migrations .
 
 isort-check:
-	docker compose exec api isort . --check-only --skip env --skip migrations 
+	docker compose exec api isort . --check-only --skip env --skip migrations
 
 isort-diff:
 	docker compose exec api isort . --diff --skip env --skip migrations
