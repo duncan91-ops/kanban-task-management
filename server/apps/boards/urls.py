@@ -1,19 +1,15 @@
 from django.urls import path
 
 from .views import (
-    BoardCreateAPIView,
-    BoardListAPIView,
+    BoardListCreateAPIView,
+    # BoardListAPIView,
     BoardUpdateAPIView,
     delete_board_api_view,
-    delete_column_api_view,
 )
 
 urlpatterns = [
-    path("", BoardListAPIView.as_view(), name="board_list"),
-    path("create/", BoardCreateAPIView.as_view(), name="board_create"),
-    path("update/<str:board_id>/", BoardUpdateAPIView.as_view(), name="board_update"),
-    path("delete/<str:board_id>/", delete_board_api_view, name="board_delete"),
-    path(
-        "columns/delete/<str:column_id>/", delete_column_api_view, name="column_delete"
-    ),
+    path("", BoardListCreateAPIView.as_view(), name="board_list_create"),
+    # path("", BoardListCreateAPIView.as_view(), name="board_create"),
+    path("<str:board_id>/update/", BoardUpdateAPIView.as_view(), name="board_update"),
+    path("<str:board_id>/delete/", delete_board_api_view, name="board_delete"),
 ]

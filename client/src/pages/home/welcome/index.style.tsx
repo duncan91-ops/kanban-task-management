@@ -1,13 +1,14 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 const StyledWelcome = styled.section`
-  position: absolute;
-  top: 50%;
-  left: 50%;
   min-width: 30rem;
   width: 60%;
-  transform: translate(-50%, -50%);
   text-align: center;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   .title {
     display: inline-block;
@@ -22,8 +23,9 @@ const StyledWelcome = styled.section`
   }
 
   .message {
-    color: ${props => props.theme.textPrimary};
+    color: ${(props) => props.theme.textPrimary};
     font-size: 2.4rem;
+    line-height: 4rem;
     margin-bottom: 8rem;
   }
 
@@ -31,16 +33,16 @@ const StyledWelcome = styled.section`
     &__join {
       background-color: var(--cta-primary);
       color: var(--white-primary);
-      font-size: 3rem;
-      padding: 1.5rem 3.5rem;
+      font-size: 2.4rem;
+      padding: 1.5rem 2.5rem;
       border-radius: 3rem;
-      transition: .3s all ease-in;
+      transition: 0.3s all ease-in;
 
       &:hover {
         background-color: var(--cta-primary-light);
       }
     }
   }
-`
+`;
 
-export default StyledWelcome
+export default StyledWelcome;

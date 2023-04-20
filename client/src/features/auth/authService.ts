@@ -1,14 +1,11 @@
 import axios from "axios";
 import { RegisterFormData, LoginFormData } from "./components";
+import { ActivateFormData, Token, User } from "./auth.types";
 
 const REGISTER_URL = '/api/v1/auth/users/'
 const LOGIN_URL = '/api/v1/auth/jwt/create/'
 const ACTIVATION_URL = '/api/v1/auth/users/activation/'
-
-export type ActivateFormData = {
-  uid: string,
-  token: string,
-}
+const GET_USER_URL = '/api/v1/auth/users/me/'
 
 const register = async (userData: RegisterFormData) => {
   const config = {
@@ -29,13 +26,14 @@ const login = async (userData: LoginFormData) => {
   }
 
   const response = await axios.post(LOGIN_URL, userData, config)
-  if (response.data) {
-    localStorage.setItem('user', JSON.stringify(response.data))
+  const token = response.data as Token
+  if (token.access) {
+    localStorage.setItem('token', JSON.stringify(token))
   }
-  return response.data
+  return token
 }
 
-const logout = () => localStorage.removeItem('user')
+const logout = () => localStorage.removeItem('token')
 
 const activate = async (userData: ActivateFormData) => {
   const config = {
@@ -48,6 +46,18 @@ const activate = async (userData: ActivateFormData) => {
   return response.data
 }
 
-const authService = {register, login, logout, activate}
+const getUser = async (token: Token) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token.access}`
+    }
+  }
+
+  const response = await axios.get(GET_USER_URL, config)
+  return response.data as User
+}
+
+const authService = {register, login, logout, activate, getUser}
 
 export default authService

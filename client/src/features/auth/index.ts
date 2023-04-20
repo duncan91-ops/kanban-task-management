@@ -1,6 +1,6 @@
 import { LoginForm } from "./components";
 import {RegisterForm} from "./components";
-import { ActivateFormData } from "./authService";
+import { ActivateFormData } from "./auth.types";
 import authReducer from './authSlice'
 import { logout, login, register, activate, reset } from "./authSlice";
 

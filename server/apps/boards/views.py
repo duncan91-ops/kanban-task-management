@@ -8,7 +8,7 @@ from .models import Board, Column
 from .serializers import BoardSerializer
 
 
-class BoardCreateAPIView(APIView):
+class BoardListCreateAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
@@ -19,15 +19,15 @@ class BoardCreateAPIView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response({"error": "Invalid data"}, status=status.HTTP_400_BAD_REQUEST)
 
-
-class BoardListAPIView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
     def get(self, request):
         user = request.user
         boards = Board.objects.filter(user=user)
         serializer = BoardSerializer(boards, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# class BoardListAPIView(APIView):
+#     permission_classes = [permissions.IsAuthenticated]
 
 
 class BoardUpdateAPIView(APIView):
@@ -67,29 +67,6 @@ def delete_board_api_view(request, board_id):
         )
 
     delete_operation = board.delete()
-    if delete_operation:
-        return Response(
-            {"success": "Deletion was successful"}, status=status.HTTP_200_OK
-        )
-    return Response({"failure": "Deletion failed"})
-
-
-@api_view(["DELETE"])
-@permission_classes([permissions.IsAuthenticated])
-def delete_column_api_view(request, column_id):
-    try:
-        column = Column.objects.get(id=column_id)
-    except Column.DoesNotExist:
-        raise ColumnNotFound
-
-    user_email = column.board.user.email
-    if user_email != request.user.email:
-        return Response(
-            {"error": "You can't delete a column that does not belong to you"},
-            status=status.HTTP_403_FORBIDDEN,
-        )
-
-    delete_operation = column.delete()
     if delete_operation:
         return Response(
             {"success": "Deletion was successful"}, status=status.HTTP_200_OK

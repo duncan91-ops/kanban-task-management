@@ -6,4 +6,6 @@ export const darkTheme: Theme = {
   bgGradient: 'linear-gradient(180deg, rgba(43, 44, 55, 0.25) 0%, rgba(43, 44, 55, 0.125) 100%)',
   textPrimary: '#ffffff',
   labelColor: '#ffffff',
+  divider: '#3E3F4E',
+  hoverPrimary: '#ffffff',
 }

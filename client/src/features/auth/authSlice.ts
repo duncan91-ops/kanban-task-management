@@ -1,27 +1,29 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import authService, {ActivateFormData} from "./authService";
+import authService from "./authService";
+import { ActivateFormData, Token } from "./auth.types";
 import { LoginFormData, RegisterFormData } from "./components";
+import { fetchBoards } from "../boards/boardSlice";
 
-const getUser = () => {
-  try {
-    return JSON.parse(localStorage.getItem('user') || '')
-  } catch (err) {
-    return null
-  }
-}
-
-const user = getUser()
+// const getToken = () => {
+//   try {
+//     return JSON.parse(localStorage.getItem('token') || '{}') as Token
+//   } catch (err) {
+//     return 
+//   }
+// }
 
 type InitialStateData = {
   user: any;
   message: any;
+  isAuthenticated: boolean;
   isError: boolean;
   isLoading: boolean;
   isSuccess: boolean;
 }
 
 const initialState: InitialStateData = {
-  user: user ? user : null,
+  user: null,
+  isAuthenticated: false,
   isError: false,
   isLoading: false,
   isSuccess: false,
@@ -39,7 +41,8 @@ export const register = createAsyncThunk('auth/register', async (user: RegisterF
 
 export const login = createAsyncThunk('auth/login', async (user: LoginFormData, thunkApi) => {
   try {
-    return await authService.login(user)
+    const token = await authService.login(user)
+    thunkApi.dispatch(getUser(token))
   } catch (error: any) {
     const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
     return thunkApi.rejectWithValue(message) 
@@ -53,6 +56,16 @@ export const logout = createAsyncThunk('auth/logout', async () => {
 export const activate = createAsyncThunk('auth/activate', async (user: ActivateFormData, thunkApi) => {
   try {
     return await authService.activate(user)
+  } catch (error: any) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    return thunkApi.rejectWithValue(message)
+  }
+})
+
+export const getUser = createAsyncThunk('auth/getUser', async (token: Token, thunkApi) => {
+  try {
+    thunkApi.dispatch(fetchBoards(token))
+    return await authService.getUser(token)
   } catch (error: any) {
     const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
     return thunkApi.rejectWithValue(message)
@@ -102,6 +115,7 @@ export const authSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
+        state.isAuthenticated = false;
       })
       .addCase(activate.pending, (state) => {
         state.isLoading = true;
@@ -111,6 +125,21 @@ export const authSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(activate.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.user = null;
+      })
+      .addCase(getUser.pending, (state, action) => {
+        state.isLoading = false;
+      })
+      .addCase(getUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isAuthenticated = true;
+        state.user = action.payload;
+      })
+      .addCase(getUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

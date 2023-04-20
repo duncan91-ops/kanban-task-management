@@ -6,4 +6,6 @@ export const lightTheme: Theme = {
   bgGradient: 'linear-gradient(180deg, #E9EFFA 0%, rgba(233, 239, 250, 0.5) 100%)',
   textPrimary: '#000112',
   labelColor: '#828FA3',
+  divider: "#E4EBFA",
+  hoverPrimary: 'rgba(99, 95, 199, 0.1)',
 }
