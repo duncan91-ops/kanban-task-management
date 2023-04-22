@@ -1,5 +1,4 @@
-import { BoardsHeader } from "./components";
-import { BoardsNav } from "./components";
+import { BoardsHeader, BoardColumn, BoardsNav, AddBoard } from "./components";
 import boardsReducer, {selectAllBoards, selectBoardById} from './boardSlice'
 
-export {BoardsHeader, BoardsNav, boardsReducer, selectAllBoards, selectBoardById}
+export {BoardsHeader, BoardsNav, BoardColumn, AddBoard, boardsReducer, selectAllBoards, selectBoardById}

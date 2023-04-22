@@ -14,7 +14,7 @@ from .serializers import (
 from apps.boards.models import Board
 
 
-class TaskCreateAPIView(APIView):
+class TaskListCreateAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, board_id):
@@ -39,10 +39,6 @@ class TaskCreateAPIView(APIView):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-
-class TaskListAPIView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
     def get(self, request, board_id):
         user_email = request.user.email
         try:
@@ -62,6 +58,10 @@ class TaskListAPIView(APIView):
         tasks = Task.objects.filter(board=board)
         serializer = TaskSerializer(tasks, many=True, context={"request": request})
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# class TaskListAPIView(APIView):
+#     permission_classes = [permissions.IsAuthenticated]
 
 
 class TaskUpdateAPIView(APIView):

@@ -1,16 +1,20 @@
+import React from "react";
 import ReactDOM from "react-dom";
 import StyledModal from "./index.style";
 
-type ModalProps = {
-  children: React.ReactNode,
-  isOpen: boolean,
-}
+type ModalTypes = {
+  children: React.ReactNode;
+  isOpen: boolean;
+  close: () => void;
+};
 
-const Modal = ({children, isOpen}: ModalProps) => {
+const Modal = ({ children, close, isOpen }: ModalTypes) => {
   return ReactDOM.createPortal(
-    <StyledModal className={isOpen ? 'open' : ''}>{children}</StyledModal>,
-    document.getElementById('modal') as HTMLElement
-  )
-}
+    <StyledModal className={isOpen ? "open" : ""} onClick={close}>
+      {children}
+    </StyledModal>,
+    document.getElementById("modal") as HTMLElement
+  );
+};
 
-export default Modal
+export default Modal;

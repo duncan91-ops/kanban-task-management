@@ -7,6 +7,7 @@ import Register from "~/pages/home/register";
 import Activate from "~/pages/home/activate";
 import Boards from "~/pages/boards";
 import BoardsHome from "~/pages/boards/home";
+import BoardDetail from "~/pages/boards/detail";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <BoardsHome />,
+          },
+          {
+            path: ":id",
+            element: <BoardDetail />,
           },
         ],
       },

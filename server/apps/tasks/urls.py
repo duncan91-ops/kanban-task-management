@@ -1,8 +1,7 @@
 from django.urls import path
 
 from .views import (
-    TaskCreateAPIView,
-    TaskListAPIView,
+    TaskListCreateAPIView,
     TaskUpdateAPIView,
     SubtaskUpdateAPIView,
     delete_task_api_view,
@@ -10,17 +9,17 @@ from .views import (
 )
 
 urlpatterns = [
-    path("<str:board_id>/", TaskListAPIView.as_view(), name="task_list"),
-    path("create/<str:board_id>/", TaskCreateAPIView.as_view(), name="task_create"),
-    path("update/<str:task_id>/", TaskUpdateAPIView.as_view(), name="task_update"),
+    path("<str:board_id>/", TaskListCreateAPIView.as_view(), name="task_list"),
+    path("<str:board_id>/", TaskListCreateAPIView.as_view(), name="task_create"),
+    path("<str:task_id>/update/", TaskUpdateAPIView.as_view(), name="task_update"),
     path(
-        "subtasks/update/<str:subtask_id>/",
+        "subtasks/<str:subtask_id>/update/",
         SubtaskUpdateAPIView.as_view(),
         name="subtask_update",
     ),
-    path("delete/<str:task_id>/", delete_task_api_view, name="task_delete"),
+    path("<str:task_id>/delete/", delete_task_api_view, name="task_delete"),
     path(
-        "subtasks/delete/<str:subtask_id>/",
+        "subtasks/<str:subtask_id>/delete/",
         delete_subtask_api_view,
         name="subtask_delete",
     ),

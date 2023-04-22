@@ -1,16 +1,20 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
-const StyledModal = styled.div`
-  position: absolute;
-  min-height: 100vh;
+const StyledModal = styled.section`
+  position: fixed;
+  left: 0;
+  top: 0;
   width: 100%;
+  height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
+  z-index: 20;
   display: none;
-  z-index: 10;
+  justify-content: center;
+  align-items: center;
 
   &.open {
-    display: block
+    display: flex;
   }
-`
+`;
 
-export default StyledModal
+export default StyledModal;

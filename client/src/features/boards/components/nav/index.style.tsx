@@ -69,6 +69,25 @@ const StyledNav = styled.nav`
       transition: 0.3s background-color ease-in;
       color: var(--text-primary);
 
+      &.active {
+        background-color: var(--cta-primary);
+        color: #fff;
+        transition: 0.3s background-color ease-in;
+
+        &:hover {
+          background-color: var(--cta-primary-light);
+          color: #fff;
+
+          path {
+            fill: #fff;
+          }
+        }
+
+        path {
+          fill: #fff;
+        }
+      }
+
       &:hover {
         background-color: ${(props) => props.theme.hoverPrimary};
         color: var(--cta-primary);

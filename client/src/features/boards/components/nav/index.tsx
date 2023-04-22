@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import StyledNav from "./index.style";
@@ -9,6 +10,8 @@ import { selectAllBoards } from "../../boardSlice";
 import iconDark from "~/assets/icons/icon-dark-theme.svg";
 import iconLight from "~/assets/icons/icon-light-theme.svg";
 import { useAppDispatch } from "~/setup/app/store";
+import AddBoard from "../add-board";
+import { Modal } from "~/common/components";
 
 type BoardsNavTypes = {
   closeMenu: () => void;
@@ -19,6 +22,10 @@ const BoardsNav = ({ closeMenu, menuOpen }: BoardsNavTypes) => {
   const themeColor = useSelector(selectCurrentTheme);
   const boards = useSelector(selectAllBoards);
   const dispatch = useAppDispatch();
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
 
   const changeThemeColor: React.MouseEventHandler<HTMLSpanElement> = () => {
     dispatch(changeTheme());
@@ -26,6 +33,9 @@ const BoardsNav = ({ closeMenu, menuOpen }: BoardsNavTypes) => {
 
   return (
     <StyledNav className={menuOpen ? "open" : ""}>
+      <Modal close={closeModal} isOpen={modalOpen}>
+        <AddBoard />
+      </Modal>
       <div className="logo-box">
         <Link to="/">
           {themeColor === "light" && (
@@ -44,7 +54,12 @@ const BoardsNav = ({ closeMenu, menuOpen }: BoardsNavTypes) => {
             {boards.map((board) => {
               return (
                 <li className="boards__item" key={board.id}>
-                  <NavLink to={`${board.id}`} className={`boards__link`}>
+                  <NavLink
+                    to={`${board.id}`}
+                    className={({ isActive }) =>
+                      isActive ? "active boards__link" : "boards__link"
+                    }
+                  >
                     <svg
                       width="16"
                       height="16"
@@ -74,7 +89,9 @@ const BoardsNav = ({ closeMenu, menuOpen }: BoardsNavTypes) => {
                 fill="#828FA3"
               />
             </svg>
-            <span className="btn__board--text">+ create new board</span>
+            <span className="btn__board--text" onClick={openModal}>
+              + create new board
+            </span>
           </button>
         </div>
         <div className="cta">
