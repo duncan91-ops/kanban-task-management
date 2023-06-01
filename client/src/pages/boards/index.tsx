@@ -42,7 +42,7 @@ const Boards = () => {
   );
 };
 
-export const useMenuContext = () => {
+export const useBoardsContext = () => {
   return useOutletContext<ContextType>();
 };
 

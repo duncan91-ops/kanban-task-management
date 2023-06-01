@@ -5,9 +5,9 @@ import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "./setup/app/store";
 import { getUser } from "./features/auth/authSlice";
-import { Token } from "./features/auth/auth.types";
 import { selectCurrentTheme, darkTheme, lightTheme } from "~/features/theme";
 import GlobalStyle from "~/common/styles/global.styles";
+import { tokenService } from "./common/utils";
 
 const queryClient = new QueryClient();
 
@@ -16,9 +16,9 @@ function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const token = JSON.parse(localStorage.getItem("token") || "{}") as Token;
-    if (token.access?.length > 0) {
-      dispatch(getUser(token));
+    const token = tokenService.getToken();
+    if (token?.access) {
+      dispatch(getUser());
     }
   }, []);
 

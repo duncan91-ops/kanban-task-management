@@ -1,16 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authService from "./authService";
-import { ActivateFormData, Token } from "./auth.types";
+import { ActivateFormData } from "./auth.types";
 import { LoginFormData, RegisterFormData } from "./components";
 import { fetchBoards } from "../boards/boardSlice";
-
-// const getToken = () => {
-//   try {
-//     return JSON.parse(localStorage.getItem('token') || '{}') as Token
-//   } catch (err) {
-//     return 
-//   }
-// }
 
 type InitialStateData = {
   user: any;
@@ -19,7 +11,7 @@ type InitialStateData = {
   isError: boolean;
   isLoading: boolean;
   isSuccess: boolean;
-}
+};
 
 const initialState: InitialStateData = {
   user: null,
@@ -27,61 +19,88 @@ const initialState: InitialStateData = {
   isError: false,
   isLoading: false,
   isSuccess: false,
-  message: '',
-}
+  message: "",
+};
 
-export const register = createAsyncThunk('auth/register', async (user: RegisterFormData, thunkApi) => {
-  try {
-    return await authService.register(user)
-  } catch (error: any) {
-    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
-    return thunkApi.rejectWithValue(message) 
+export const register = createAsyncThunk(
+  "auth/register",
+  async (user: RegisterFormData, thunkApi) => {
+    try {
+      return await authService.register(user);
+    } catch (error: any) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkApi.rejectWithValue(message);
+    }
   }
-})
+);
 
-export const login = createAsyncThunk('auth/login', async (user: LoginFormData, thunkApi) => {
-  try {
-    const token = await authService.login(user)
-    thunkApi.dispatch(getUser(token))
-  } catch (error: any) {
-    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
-    return thunkApi.rejectWithValue(message) 
+export const login = createAsyncThunk(
+  "auth/login",
+  async (user: LoginFormData, thunkApi) => {
+    try {
+      await authService.login(user);
+      thunkApi.dispatch(getUser());
+    } catch (error: any) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkApi.rejectWithValue(message);
+    }
   }
-})
+);
 
-export const logout = createAsyncThunk('auth/logout', async () => {
-  authService.logout()
-})
+export const logout = createAsyncThunk("auth/logout", async () => {
+  authService.logout();
+});
 
-export const activate = createAsyncThunk('auth/activate', async (user: ActivateFormData, thunkApi) => {
-  try {
-    return await authService.activate(user)
-  } catch (error: any) {
-    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
-    return thunkApi.rejectWithValue(message)
+export const activate = createAsyncThunk(
+  "auth/activate",
+  async (user: ActivateFormData, thunkApi) => {
+    try {
+      return await authService.activate(user);
+    } catch (error: any) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkApi.rejectWithValue(message);
+    }
   }
-})
+);
 
-export const getUser = createAsyncThunk('auth/getUser', async (token: Token, thunkApi) => {
+export const getUser = createAsyncThunk("auth/getUser", async (_, thunkApi) => {
   try {
-    thunkApi.dispatch(fetchBoards(token))
-    return await authService.getUser(token)
+    thunkApi.dispatch(fetchBoards());
+    return await authService.getUser();
   } catch (error: any) {
-    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
-    return thunkApi.rejectWithValue(message)
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+    return thunkApi.rejectWithValue(message);
   }
-})
+});
 
 export const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
     reset: (state) => {
-      state.isLoading = false
-      state.isError = false
-      state.isSuccess = false
-      state.message = ''
-    }
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = false;
+      state.message = "";
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -144,9 +163,9 @@ export const authSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
         state.user = null;
-      })
-  }
-})
+      });
+  },
+});
 
-export const {reset} = authSlice.actions
+export const { reset } = authSlice.actions;
 export default authSlice.reducer;

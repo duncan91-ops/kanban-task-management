@@ -34,7 +34,7 @@ const BoardsNav = ({ closeMenu, menuOpen }: BoardsNavTypes) => {
   return (
     <StyledNav className={menuOpen ? "open" : ""}>
       <Modal close={closeModal} isOpen={modalOpen}>
-        <AddBoard />
+        <AddBoard close={closeModal} />
       </Modal>
       <div className="logo-box">
         <Link to="/">

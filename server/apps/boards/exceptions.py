@@ -9,8 +9,3 @@ class BoardNotFound(APIException):
 class NotYourBoard(APIException):
     status_code = 403
     default_detail = "You are not allowed to edit board that does not belong to you"
-
-
-class ColumnNotFound(APIException):
-    status_code = 404
-    default_detail = "The column you requested is not available"

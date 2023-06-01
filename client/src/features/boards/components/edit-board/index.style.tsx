@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const StyledAddBoard = styled.form`
+const StyledEditBoard = styled.form`
   padding: 3.2rem;
   background-color: ${(props) => props.theme.bgPrimary};
   border-radius: 6px;
@@ -115,4 +115,4 @@ const StyledAddBoard = styled.form`
   }
 `;
 
-export default StyledAddBoard;
+export default StyledEditBoard;

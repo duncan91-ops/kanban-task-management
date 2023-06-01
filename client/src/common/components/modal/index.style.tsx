@@ -5,7 +5,7 @@ const StyledModal = styled.section`
   left: 0;
   top: 0;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 20;
   display: none;

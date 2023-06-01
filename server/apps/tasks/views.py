@@ -6,10 +6,8 @@ from rest_framework.views import APIView
 from .exceptions import TaskNotFound, NotYourTask, SubtaskNotFound, NotYourSubtask
 from .models import Task, Subtask
 from .serializers import (
-    CreateTaskSerializer,
+    TaskCreateSerializer,
     TaskSerializer,
-    UpdateSubtaskSerializer,
-    UpdateTaskSerializer,
 )
 from apps.boards.models import Board
 
@@ -34,7 +32,7 @@ class TaskListCreateAPIView(APIView):
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        serializer = CreateTaskSerializer(data=data, context={"board": board})
+        serializer = TaskCreateSerializer(data=data, context={"board": board})
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -78,56 +76,35 @@ class TaskUpdateAPIView(APIView):
             raise NotYourTask
 
         data = request.data
-        subtasks_data = data.pop("subtasks")
-        if subtasks_data:
-            for subtask_data in subtasks_data:
-                id = subtask_data.get("id", None)
-                if id is None:
-                    Subtask.objects.create(task=task, **subtask_data)
-                else:
-                    completed = subtask_data.get("completed", None)
-                    subtask = Subtask.objects.get(id=id)
-                    serializer = UpdateSubtaskSerializer(
-                        instance=subtask, data=subtask_data, partial=True
-                    )
-                    serializer.is_valid()
-                    serializer.save()
-                    # Increase number of completed task if completed
-                    if completed:
-                        task.completed_subtasks += 1
-                        task.save()
-
-        serializer = UpdateTaskSerializer(instance=task, data=data, partial=True)
+        serializer = TaskSerializer(instance=task, data=data, partial=True)
         serializer.is_valid()
         serializer.save()
 
-        task = Task.objects.get(id=task_id)
-        serializer = TaskSerializer(task, context={"request": request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class SubtaskUpdateAPIView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+# class SubtaskUpdateAPIView(APIView):
+#     permission_classes = [permissions.IsAuthenticated]
 
-    def patch(self, request, subtask_id):
-        try:
-            subtask = Subtask.objects.get(id=subtask_id)
-        except Subtask.DoesNotExist:
-            raise SubtaskNotFound
+#     def patch(self, request, subtask_id):
+#         try:
+#             subtask = Subtask.objects.get(id=subtask_id)
+#         except Subtask.DoesNotExist:
+#             raise SubtaskNotFound
 
-        user_email = subtask.task.board.user.email
-        if user_email != request.user.email:
-            raise NotYourSubtask
+#         user_email = subtask.task.board.user.email
+#         if user_email != request.user.email:
+#             raise NotYourSubtask
 
-        data = request.data
-        completed = data.get("completed", None)
-        serializer = UpdateSubtaskSerializer(instance=subtask, data=data, partial=True)
-        serializer.is_valid()
-        serializer.save()
-        if completed:
-            subtask.task.completed_subtasks += 1
-            subtask.task.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
+#         data = request.data
+#         completed = data.get("completed", None)
+#         serializer = UpdateSubtaskSerializer(instance=subtask, data=data, partial=True)
+#         serializer.is_valid()
+#         serializer.save()
+#         if completed:
+#             subtask.task.completed_subtasks += 1
+#             subtask.task.save()
+#         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(["DELETE"])

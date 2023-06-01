@@ -1,34 +1,43 @@
-import { useForm, useFieldArray, SubmitHandler } from "react-hook-form";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useForm, useFieldArray, SubmitHandler } from "react-hook-form";
 import { selectCurrentTheme } from "~/features/theme";
 import { useAppDispatch } from "~/setup/app/store";
-import { createBoard } from "../../boardSlice";
-import StyledAddBoard from "./index.style";
+import { updateBoard } from "../../boardSlice";
+import StyledEditBoard from "./index.style";
+import { Board } from "../../boards.types";
 
-type AddFormType = {
+type EditFormType = {
+  id: string;
   name: string;
   columns: {
+    id?: string;
     name: string;
   }[];
 };
 
-type AddBoardTypes = {
-  close: () => void
-}
+type EditBoardTypes = {
+  close: () => void;
+  board: Board;
+};
 
-const AddBoard = ({ close }: AddBoardTypes) => {
-  const dispatch = useAppDispatch()
+const EditBoard = ({ board, close }: EditBoardTypes) => {
+  const dispatch = useAppDispatch();
   const themeColor = useSelector(selectCurrentTheme);
   const {
     register,
     control,
     handleSubmit,
-    formState: { errors },
     reset,
+    formState: { errors },
   } = useForm({
     defaultValues: {
-      name: "",
-      columns: [{ name: "" }, { name: "" }],
+      id: board.id,
+      name: board.name,
+      columns: board.columns.map((column) => ({
+        id: column.id,
+        name: column.name,
+      })),
     },
   });
   const { fields, append, remove } = useFieldArray({
@@ -36,21 +45,36 @@ const AddBoard = ({ close }: AddBoardTypes) => {
     control,
   });
 
-  const onSubmit: SubmitHandler<AddFormType> = (data: AddFormType) => {
-    dispatch(createBoard(data))
-    reset()
-    close()
+  useEffect(() => {
+    reset({
+      id: board.id,
+      name: board.name,
+      columns: board.columns.map((column) => ({
+        id: column.id,
+        name: column.name,
+      })),
+    });
+  }, [board, reset]);
+
+  const onSubmit: SubmitHandler<EditFormType> = (data: EditFormType) => {
+    const columnData = data.columns.map(({ id, name }) => {
+      if (id) {
+        return { id, name };
+      }
+      return { name };
+    });
+    dispatch(updateBoard({ ...data, columns: columnData }));
+    close();
   };
 
   return (
-    <StyledAddBoard
+    <StyledEditBoard
       onClick={(e) => {
         e.stopPropagation();
       }}
       onSubmit={handleSubmit(onSubmit)}
-      noValidate
     >
-      <h2 className="title">add new board</h2>
+      <h2 className="title">edit board</h2>
       <div className="container">
         <label htmlFor="board-name" className="label">
           board name
@@ -109,16 +133,16 @@ const AddBoard = ({ close }: AddBoardTypes) => {
         <button
           className={`btn btn__append ${themeColor === "light" ? "light" : ""}`}
           type="button"
-          onClick={() => append({ name: "" })}
+          onClick={() => append({ id: "", name: "" })}
         >
           + add new column
         </button>
       </div>
       <button className="btn btn__submit" type="submit">
-        create new board
+        save changes
       </button>
-    </StyledAddBoard>
+    </StyledEditBoard>
   );
 };
 
-export default AddBoard;
+export default EditBoard;

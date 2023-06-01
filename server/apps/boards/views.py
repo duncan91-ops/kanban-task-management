@@ -3,9 +3,9 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .exceptions import BoardNotFound, NotYourBoard, ColumnNotFound
-from .models import Board, Column
-from .serializers import BoardSerializer
+from .exceptions import BoardNotFound, NotYourBoard
+from .models import Board
+from .serializers import BoardSerializer, BoardCreateSerializer
 
 
 class BoardListCreateAPIView(APIView):
@@ -13,7 +13,7 @@ class BoardListCreateAPIView(APIView):
 
     def post(self, request):
         data = request.data
-        serializer = BoardSerializer(data=data, context={"request": request})
+        serializer = BoardCreateSerializer(data=data, context={"request": request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -26,14 +26,10 @@ class BoardListCreateAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-# class BoardListAPIView(APIView):
-#     permission_classes = [permissions.IsAuthenticated]
-
-
 class BoardUpdateAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    def put(self, request, board_id):
+    def patch(self, request, board_id):
         try:
             board = Board.objects.get(id=board_id)
         except Board.DoesNotExist:
