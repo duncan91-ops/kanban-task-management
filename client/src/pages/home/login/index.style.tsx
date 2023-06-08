@@ -21,6 +21,12 @@ const StyledLogin = styled.section`
     font-size: 2.4rem;
     margin-bottom: 3rem;
   }
+
+  @media screen and (max-width: 767px) {
+    .form-container {
+      padding: 2rem;
+    }
+  }
 `;
 
 export default StyledLogin;

@@ -67,6 +67,27 @@ const StyledBoardDetail = styled.section`
       }
     }
   }
+
+  @media screen and (max-width: 1279px) {
+    min-height: calc(100vh - 8.1rem);
+
+    .columns {
+      &.open {
+        transform: translateX(26.1rem);
+      }
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    min-height: calc(100vh - 6.4rem);
+    padding: 2.4rem 1.6rem;
+
+    .columns {
+      &.open {
+        transform: translateX(0);
+      }
+    }
+  }
 `;
 
 export default StyledBoardDetail;

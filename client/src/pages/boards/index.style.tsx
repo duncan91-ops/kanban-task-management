@@ -24,6 +24,14 @@ const StyledBoards = styled.main`
       }
     }
   }
+
+  @media screen and (max-width: 767px) {
+    .btn {
+      &__show-sidebar {
+        display: none;
+      }
+    }
+  }
 `;
 
 export default StyledBoards;

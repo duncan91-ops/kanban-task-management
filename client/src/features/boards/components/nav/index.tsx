@@ -77,7 +77,7 @@ const BoardsNav = ({ closeMenu, menuOpen }: BoardsNavTypes) => {
               );
             })}
           </ul>
-          <button className="btn btn__board">
+          <button className="btn btn__board" type="button" onClick={openModal}>
             <svg
               width="16"
               height="16"
@@ -89,9 +89,7 @@ const BoardsNav = ({ closeMenu, menuOpen }: BoardsNavTypes) => {
                 fill="#828FA3"
               />
             </svg>
-            <span className="btn__board--text" onClick={openModal}>
-              + create new board
-            </span>
+            <span className="btn__board--text">+ create new board</span>
           </button>
         </div>
         <div className="cta">

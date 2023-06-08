@@ -8,8 +8,9 @@ const StyledViewTask = styled.section`
   flex-direction: column;
   gap: 2.4rem;
   max-width: 50rem;
-  min-width: 30rem;
+  min-width: 48rem;
   width: 33%;
+  margin: 0 auto;
 
   .header {
     display: flex;
@@ -172,6 +173,13 @@ const StyledViewTask = styled.section`
       border-radius: 4px;
       border: 1px solid rgba(130, 143, 163, 0.25);
     }
+  }
+
+  @media screen and (max-width: 767px) {
+    max-width: 48rem;
+    min-width: 30rem;
+    width: 91.4%;
+    padding: 2.4rem;
   }
 `;
 

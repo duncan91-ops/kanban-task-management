@@ -63,7 +63,7 @@ const Header = () => {
           </Link>
         )}
         {isAuthenticated && (
-          <Link className="btn btn__avatar" to="/profile">
+          <Link className="btn btn__avatar" to="/">
             <img
               src={user.profile_photo.small}
               alt="avatar"

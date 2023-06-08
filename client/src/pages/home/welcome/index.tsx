@@ -15,7 +15,11 @@ const Welcome = () => {
         tasks. Trusted by thousands for their daily tasks both professionally
         and personally.
       </p>
-      {!isAuthenticated && (
+      {isAuthenticated ? (
+        <Link to="/boards" className="btn btn__boards">
+          Boards
+        </Link>
+      ) : (
         <Link to="/register" className="btn btn__join">
           Join today
         </Link>

@@ -5,6 +5,7 @@ import Welcome from "~/pages/home/welcome";
 import Login from "~/pages/home/login";
 import Register from "~/pages/home/register";
 import Activate from "~/pages/home/activate";
+import Logout from "~/pages/home/logout";
 import Boards from "~/pages/boards";
 import BoardsHome from "~/pages/boards/home";
 import BoardDetail from "~/pages/boards/detail";
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
           {
             path: "activate/:uid/:token",
             element: <Activate />,
+          },
+          {
+            path: "logout",
+            element: <Logout />,
           },
         ],
       },

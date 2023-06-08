@@ -1,11 +1,10 @@
 import styled from "styled-components";
 
-const StyledActivate = styled.section`
+const StyledLogout = styled.section`
   min-height: calc(100vh - 9.7rem);
-  position: relative;
 
   .content {
-    margin: 0 auto;
+    margin: 0 auto 0;
     max-width: 50rem;
     min-width: 30rem;
     width: 50%;
@@ -24,32 +23,44 @@ const StyledActivate = styled.section`
     color: var(--cta-secondary);
   }
 
+  .message {
+    font-size: 2rem;
+  }
+
+  .btns {
+    display: flex;
+    gap: 1.6rem;
+  }
+
   .btn {
     border-radius: 20px;
-    padding: 1rem 2.5rem;
+    padding: 0.8rem 0;
+    flex-grow: 1;
     font-size: 2rem;
-    align-self: center;
 
-    &__activate {
-      background-color: var(--cta-primary);
+    &__logout {
+      background-color: var(--cta-secondary);
       color: #fff;
       transition: 0.3s background-color ease-in;
 
       &:hover {
-        background-color: var(--cta-primary-light);
+        background-color: var(--cta-secondary-light);
       }
     }
-  }
 
-  .error {
-    position: absolute;
-    top: 1rem;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: var(--cta-secondary);
-    padding: 1rem;
-    color: #fff;
-    border-radius: 8px;
+    &__cancel {
+      background-color: #fff;
+      color: var(--cta-primary);
+
+      &.light {
+        background-color: rgba(99, 95, 199, 0.1);
+        transition: 0.3s background-color ease-in;
+
+        &:hover {
+          background-color: rgba(99, 95, 199, 0.25);
+        }
+      }
+    }
   }
 
   @media screen and (max-width: 1279px) {
@@ -59,7 +70,7 @@ const StyledActivate = styled.section`
       font-size: 3rem;
     }
 
-    .btn {
+    .message {
       font-size: 1.8rem;
     }
   }
@@ -71,10 +82,14 @@ const StyledActivate = styled.section`
       font-size: 2.4rem;
     }
 
+    .message {
+      font-size: 1.6rem;
+    }
+
     .btn {
       font-size: 1.6rem;
     }
   }
 `;
 
-export default StyledActivate;
+export default StyledLogout;

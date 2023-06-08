@@ -30,7 +30,8 @@ const StyledWelcome = styled.section`
   }
 
   .btn {
-    &__join {
+    &__join,
+    &__boards {
       background-color: var(--cta-primary);
       color: var(--white-primary);
       font-size: 2.4rem;
@@ -40,6 +41,48 @@ const StyledWelcome = styled.section`
 
       &:hover {
         background-color: var(--cta-primary-light);
+      }
+    }
+  }
+
+  @media screen and (max-width: 1279px) {
+    .title {
+      font-size: 4.5rem;
+      letter-spacing: 1rem;
+    }
+
+    .message {
+      font-size: 1.8rem;
+      line-height: 3rem;
+      margin-bottom: 6rem;
+    }
+
+    .btn {
+      &__boards,
+      &__join {
+        font-size: 2rem;
+        padding: 1rem 2rem;
+      }
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .title {
+      font-size: 3.2rem;
+      letter-spacing: 0.5rem;
+    }
+
+    .message {
+      font-size: 1.6rem;
+      line-height: 2.4rem;
+      margin-bottom: 3rem;
+    }
+
+    .btn {
+      &__boards,
+      &__join {
+        font-size: 1.6rem;
+        padding: 1rem 2rem;
       }
     }
   }

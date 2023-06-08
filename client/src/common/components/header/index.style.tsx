@@ -68,6 +68,54 @@ const StyledHeader = styled.header`
     height: auto;
     border-radius: 100px;
   }
+
+  @media screen and (max-width: 1279px) {
+    height: 8.1rem;
+    padding-right: 2.4rem;
+
+    .header {
+      &--right {
+        gap: 3rem;
+      }
+    }
+
+    .btn {
+      &__login,
+      &__logout,
+      &__boards {
+        font-size: 1.8rem;
+      }
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    height: 6.4rem;
+    padding-right: 1.6rem;
+
+    .logo-box {
+      padding: 0 1.6rem;
+      border-right: none;
+    }
+
+    .logo {
+      display: none;
+
+      &.mobile {
+        display: block;
+      }
+    }
+
+    .btn {
+      &__login,
+      &__logout {
+        font-size: 1.6rem;
+      }
+
+      &__boards {
+        display: none;
+      }
+    }
+  }
 `;
 
 export default StyledHeader;

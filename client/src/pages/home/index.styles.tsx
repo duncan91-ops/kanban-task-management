@@ -7,6 +7,18 @@ const StyledHome = styled.div`
   .content {
     min-height: calc(100vh - 9.7rem);
   }
+
+  @media screen and (max-width: 1279px) {
+    .content {
+      min-height: calc(100vh - 8.1rem);
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .content {
+      min-height: calc(100vh - 6.4rem);
+    }
+  }
 `;
 
 export default StyledHome;

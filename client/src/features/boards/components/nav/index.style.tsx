@@ -219,6 +219,61 @@ const StyledNav = styled.nav`
       }
     }
   }
+
+  @media screen and (max-width: 1279px) {
+    left: -26.1rem;
+    width: 26.1rem;
+
+    &.open {
+      transform: translateX(26.1rem);
+    }
+
+    .logo-box {
+      height: 8.1rem;
+      padding: 3.2rem 0 0 2.6rem;
+    }
+
+    .content {
+      padding: 3.1rem 2rem 3.2rem 0;
+    }
+
+    .boards {
+      &__title {
+        margin: 0 0 1.9rem 2.4rem;
+      }
+
+      &__link {
+        padding-left: 2.4rem;
+        gap: 1.2rem;
+      }
+    }
+
+    .btn {
+      &__board {
+        padding-left: 2.4rem;
+        gap: 1.2rem;
+      }
+    }
+
+    .cta {
+      gap: 1.6rem;
+    }
+
+    .switch {
+      margin-left: 1.3rem;
+    }
+
+    .hide-sidebar {
+      &__btn {
+        padding-left: 2.4rem;
+        gap: 1rem;
+      }
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
 `;
 
 export default StyledNav;

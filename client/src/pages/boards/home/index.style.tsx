@@ -15,6 +15,14 @@ const StyledBoardsHome = styled.section`
     font-weight: 700;
     text-align: center;
   }
+
+  @media screen and (max-width: 1279px) {
+    min-height: calc(100vh - 8.1rem);
+  }
+
+  @media screen and (max-width: 767px) {
+    min-height: calc(100vh - 6.4rem);
+  }
 `;
 
 export default StyledBoardsHome;
